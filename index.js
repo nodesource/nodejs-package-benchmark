@@ -3,7 +3,9 @@ const { setTimeout: delay } = require('node:timers/promises');
 const path = require('node:path');
 const { spawn } = require('node:child_process');
 const assert = require('node:assert');
+
 const autocannon = require('autocannon');
+const Benchmark = require('benchmark');
 
 const runner = {
   autocannon: (opts) => {
@@ -13,6 +15,27 @@ const runner = {
       pipelining: 1,
       duration: 10 * opts.http.routes.length,
       requests: opts.http.routes,
+    })
+  },
+  benchmarkjs: (opts) => {
+    const suite = new Benchmark.Suite;
+
+    for (const operation of opts.operations) {
+      suite.add(operation.name, operation.fn);
+    }
+
+    return new Promise((resolve) => {
+      const results = [];
+      suite.on('cycle', function(event) {
+        results.push({
+          name: event.target.name,
+          opsSec: event.target.hz,
+          samples: event.target.cycles,
+        });
+      }).on('complete', function () {
+        resolve(results);
+      })
+      .run({ 'async': true });
     })
   },
 }
@@ -28,6 +51,13 @@ const parser = {
         errors: result.errors,
       }
     };
+  },
+  benchmarkjs: (settings, result) => {
+    return {
+      name: settings.name,
+      method: 'benchmarkjs',
+      operations: result,
+    }
   }
 }
 
@@ -54,11 +84,11 @@ function spawnServer(settings) {
 }
 
 async function runBenchmark(settings) {
-  assert.ok(settings.http.server, 'HTTP Benchmark must have a server to be spawned');
   assert.ok(ALLOWED_BENCHMARKER.includes(settings.benchmarker), 'Invalid settings.benchmarker');
 
   let server = undefined;
   if (settings.type === 'http') {
+    assert.ok(settings.http.server, 'HTTP Benchmark must have a server to be spawned');
     server = spawnServer(settings);
     // TODO: replace this workaround to use IPC to know when server is up
     await delay(1000);
@@ -78,7 +108,10 @@ async function main() {
   for (const file of files) {
     if (file.match(/.*-benchmark\.js$/)) {
       const bench = require(path.join(__dirname, './src/', file));
-      console.log(bench.name, 'results', await runBenchmark(bench));
+      // TODO(rafaelgss): possibly should be more accurate to run each benchmark in
+      // a separate worker
+      const result = await runBenchmark(bench)
+      console.log(bench.name, 'results', JSON.stringify(result, null, 2));
     }
   }
 }
