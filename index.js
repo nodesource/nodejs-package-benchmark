@@ -35,7 +35,7 @@ const runner = {
       }).on('complete', function () {
         resolve(results);
       })
-      .run({ 'async': true });
+      .run({ 'async': false });
     })
   },
 }
@@ -113,6 +113,7 @@ async function main() {
       const result = await runBenchmark(bench)
       console.log(bench.name, 'results', JSON.stringify(result, null, 2));
     }
+    console.log('Done...', file)
   }
 }
 

@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "fastify": "4.26.1",
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "prettier": "3.2.5"
   },
   "devDependencies": {
     "autocannon": "7.15.0",

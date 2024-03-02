@@ -7,7 +7,7 @@ packages operations.
 
 - [x] fastify
 - [x] lodash
-- [ ] prettier
+- [x] prettier
 - [ ] webpack
 - [ ] babel
 - [ ] moment
