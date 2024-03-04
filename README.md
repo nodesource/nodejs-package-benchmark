@@ -12,7 +12,7 @@ packages operations.
 - [x] babel
 - [x] moment
 - [x] dotenv
-- [ ] pinojs
+- [x] pinojs
 - [ ] winston
 - [ ] helmet
 - [ ] node-sass
