@@ -3,7 +3,8 @@ const path = require('node:path');
 const Piscina = require('piscina');
 
 const piscina = new Piscina({
-  filename: path.resolve(__dirname, 'worker.js')
+  filename: path.resolve(__dirname, 'worker.js'),
+  maxQueue: 1,
 });
 
 async function main() {
@@ -14,7 +15,6 @@ async function main() {
       const result = await piscina.run(benchFile);
       console.log('results', JSON.stringify(result, null, 2));
     }
-    console.log('Done...', file)
   }
 }
 

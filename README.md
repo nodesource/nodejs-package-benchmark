@@ -10,7 +10,7 @@ packages operations.
 - [x] prettier
 - [ ] webpack
 - [x] babel
-- [ ] moment
+- [x] moment
 - [ ] dotenv
 - [ ] pinojs
 - [ ] winston
