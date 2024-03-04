@@ -20,32 +20,32 @@ module.exports = {
         return v;
       },
     },
-    // {
-    //   name: 'format (singleQuote=true semi=true tabs=true)',
-    //   fn: () => {
-    //     let v = undefined;
-    //     for (const p of payloads) {
-    //       v = prettier.format(
-    //         p,
-    //         { singleQuote: true, semi: true, tabs: true, parser: 'babel' },
-    //       );
-    //     }
-    //     return v;
-    //   },
-    // },
-    // {
-    //   name: 'format (singleQuote=false semi=false tabs=false)',
-    //   fn: () => {
-    //     let v = undefined;
-    //     for (const p of payloads) {
-    //       v = prettier.format(
-    //         p,
-    //         { singleQuote: false, semi: false, tabs: false, parser: 'babel' }
-    //       );
-    //     }
-    //     return v;
-    //   },
-    // },
+    {
+      name: 'format (singleQuote=true semi=true tabs=true)',
+      fn: () => {
+        let v = undefined;
+        for (const p of payloads) {
+          v = prettier.format(
+            p,
+            { singleQuote: true, semi: true, tabs: true, parser: 'babel' },
+          );
+        }
+        return v;
+      },
+    },
+    {
+      name: 'format (singleQuote=false semi=false tabs=false)',
+      fn: () => {
+        let v = undefined;
+        for (const p of payloads) {
+          v = prettier.format(
+            p,
+            { singleQuote: false, semi: false, tabs: false, parser: 'babel' }
+          );
+        }
+        return v;
+      },
+    },
   ],
   benchmarker: 'benchmarkjs',
 };
