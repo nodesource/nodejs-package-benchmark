@@ -4,6 +4,11 @@ const Piscina = require('piscina');
 
 const piscina = new Piscina({
   filename: path.resolve(__dirname, 'worker.js'),
+  resourceLimits: {
+    // 16GiB for each Worker (1 per run)
+    // This was required due to prettier benchmark
+    maxOldGenerationSizeMb: 16384,
+  },
   maxQueue: 1,
 });
 
