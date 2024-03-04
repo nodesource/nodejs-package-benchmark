@@ -9,7 +9,7 @@ packages operations.
 - [x] lodash
 - [x] prettier
 - [ ] webpack
-- [ ] babel
+- [x] babel
 - [ ] moment
 - [ ] dotenv
 - [ ] pinojs

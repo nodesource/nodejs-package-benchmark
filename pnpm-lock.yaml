@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@babel/standalone':
+    specifier: 7.24.0
+    version: 7.24.0
   fastify:
     specifier: 4.26.1
     version: 4.26.1
@@ -27,6 +30,11 @@ packages:
   /@assemblyscript/loader@0.19.23:
     resolution: {integrity: sha512-ulkCYfFbYj01ie1MDOyxv2F6SpRN1TOj7fQxbP07D6HmeR+gr2JLSmINKjga2emB+b1L2KGrFKBTc+e00p54nw==}
     dev: true
+
+  /@babel/standalone@7.24.0:
+    resolution: {integrity: sha512-yIZ/X3EAASgX/MW1Bn8iZKxCwixgYJAUaIScoZ9C6Gapw5l3eKIbtVSgO/IGldQed9QXm22yurKVWyWj5/j+SQ==}
+    engines: {node: '>=6.9.0'}
+    dev: false
 
   /@colors/colors@1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
