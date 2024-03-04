@@ -13,7 +13,7 @@ packages operations.
 - [x] moment
 - [x] dotenv
 - [x] pinojs
-- [ ] winston
+- [x] winston
 - [ ] helmet
 - [ ] node-sass
 - [ ] underscore
