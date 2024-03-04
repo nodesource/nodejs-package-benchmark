@@ -11,7 +11,7 @@ packages operations.
 - [ ] webpack
 - [x] babel
 - [x] moment
-- [ ] dotenv
+- [x] dotenv
 - [ ] pinojs
 - [ ] winston
 - [ ] helmet
