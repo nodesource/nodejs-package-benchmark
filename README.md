@@ -16,5 +16,5 @@ packages operations.
 - [x] winston
 - [ ] helmet
 - [ ] node-sass
-- [ ] underscore
+- [x] underscore
 - [ ] minify
