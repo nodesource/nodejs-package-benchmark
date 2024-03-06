@@ -15,7 +15,7 @@ const piscina = new Piscina({
 let output;
 // Considering this script won't be called as a
 // child_process, stdout.isTTY should be reliable enough.
-if (process.stdout.isTTY) {
+if (process.env.TTY || process.stdout.isTTY) {
   output = require('./console-output');
 } else {
   output = {
