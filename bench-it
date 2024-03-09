@@ -1,14 +1,23 @@
 #!/bin/bash
 
-if [ "$1" = "baseline" ]; then
+NODEJS_PACKAGE_BENCHMARK_PATH="/usr/local/bin/nodejs-package-benchmark"
+
+if [ -z "$1" ]; then
+  echo "You must pass the binary as argument. Example: bench-it ./node";
+  exit 1;
+fi
+
+BINARY=$1
+
+if [ "$2" = "baseline" ]; then
   git rev-parse HEAD > baseline.out
-  TTY=1 ./node ../nodejs-package-benchmark/index.js >> baseline.out;
+  TTY=1 $BINARY "$NODEJS_PACKAGE_BENCHMARK_PATH/index.js" >> baseline.out;
   echo "Baseline generated.";
   exit 0;
 fi
 
 if [ ! -f ./baseline.out ]; then
-  echo "The baseline.out does not exist. Generate it with: $ bench-it baseline."
+  echo "The baseline.out does not exist. Generate it with: $ bench-it $BINARY baseline."
   exit 1;
 fi
 
@@ -19,5 +28,5 @@ then
     DIFF="diff";
 fi
 
-TTY=1 ./node ../nodejs-package-benchmark/index.js > current.out;
+TTY=1 $BINARY $NODEJS_PACKAGE_BENCHMARK_PATH/index.js > current.out;
 $DIFF -y baseline.out current.out
