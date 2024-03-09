@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ "$1" = "baseline" ]; then
+  git rev-parse HEAD > baseline.out
+  TTY=1 ./node ../nodejs-package-benchmark/index.js >> baseline.out;
+  echo "Baseline generated.";
+  exit 0;
+fi
+
+if [ ! -f ./baseline.out ]; then
+  echo "The baseline.out does not exist. Generate it with: $ bench-it baseline."
+  exit 1;
+fi
+
+DIFF="colordiff";
+if ! command -v colordiff &> /dev/null
+then
+    echo "⚠️ "colordiff" was not found. Using "diff" as fallback."
+    DIFF="diff";
+fi
+
+TTY=1 ./node ../nodejs-package-benchmark/index.js > current.out;
+$DIFF -y baseline.out current.out
