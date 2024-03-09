@@ -1,4 +1,29 @@
 {
+  "name": "nodejs-package-benchmark",
+  "description": "This package allows you to benchmark different runtimes using popular packages operations.",
+  "version": "1.0.0-beta.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NodeSource/nodejs-package-benchmark.git"
+  },
+  "keywords": [
+    "benchmark",
+    "nodejs",
+    "core"
+  ],
+  "author": "RafaelGSS <rafael.nunu@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NodeSource/nodejs-package-benchmark/issues"
+  },
+  "homepage": "https://github.com/NodeSource/nodejs-package-benchmark#readme",
+  "bin": {
+    "bench-it": "./bench-it.js"
+  },
   "dependencies": {
     "@babel/standalone": "7.24.0",
     "dotenv": "16.4.5",
@@ -9,9 +34,7 @@
     "piscina": "4.4.0",
     "prettier": "3.2.5",
     "underscore": "1.13.6",
-    "winston": "3.12.0"
-  },
-  "devDependencies": {
+    "winston": "3.12.0",
     "autocannon": "7.15.0",
     "benchmark": "2.1.4"
   }
