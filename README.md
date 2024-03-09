@@ -15,7 +15,33 @@ packages operations.
 - [x] winston
 - [x] underscore
 
-## Running
+## Install
+
+```console
+npm i -g nodejs-package-benchmark
+```
+
+## Comparison
+
+To compare binaries, you can use the `bench-it` script.
+
+### Syntax: `bench-it $BINARY ["baseline"]`
+
+This script allows you to compare the performance of binaries. If it's your first run, you need to generate the `baseline` data using:
+
+```console
+$ bench-it ./node baseline
+```
+
+To compare subsequent runs, simply omit the "baseline" option:
+
+```console
+$ bench-it ./node
+```
+
+> **Note:** It's recommended to have `colordiff` installed for a clearer comparison of differences.
+
+## Single run
 
 To a pretty terminal output, run `index.js`
 
