@@ -17,7 +17,7 @@ const runner = {
     })
   },
   benchmarkjs: (opts) => {
-    const suite = new Benchmark.Suite;
+    const suite = new Benchmark.Suite({ minSamples: 10 });
 
     for (const operation of opts.operations) {
       suite.add(operation.name, operation.fn);
