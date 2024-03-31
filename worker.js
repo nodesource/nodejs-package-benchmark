@@ -2,7 +2,7 @@ const { spawn } = require('node:child_process');
 const assert = require('node:assert');
 
 const autocannon = require('autocannon');
-const Benchmark = require('benchmark');
+const { Bench } = require('tinybench');
 
 const { setTimeout: delay } = require('node:timers/promises');
 
@@ -16,26 +16,27 @@ const runner = {
       requests: opts.http.routes,
     })
   },
-  benchmarkjs: (opts) => {
-    const suite = new Benchmark.Suite;
+  tinybench: async (opts) => {
+    const suite = new Bench({ time: 100 });
 
     for (const operation of opts.operations) {
       suite.add(operation.name, operation.fn);
     }
-
-    return new Promise((resolve) => {
-      const results = [];
-      suite.on('cycle', function(event) {
-        results.push({
-          name: event.target.name,
-          opsSec: event.target.hz,
-          samples: event.target.cycles,
-        });
-      }).on('complete', function () {
-        resolve(results);
+    await suite.warmup();
+    await suite.run();
+    const results = [];
+    const tasks = suite.tasks;
+    for (const task of tasks) {
+      const result = task.result
+      results.push({
+        name: task.name,
+        opsSec: result.hz,
+        samples: result.samples.length,
+        sd: result.sd,
+        variance: result.variance,
       })
-      .run({ 'async': false });
-    })
+    }
+    return results;
   },
 }
 
@@ -51,16 +52,16 @@ const parser = {
       }
     };
   },
-  benchmarkjs: (settings, result) => {
+  tinybench: (settings, result) => {
     return {
       name: settings.name,
-      method: 'benchmarkjs',
+      method: 'tinybench',
       operations: result,
     }
   }
 }
 
-const ALLOWED_BENCHMARKER = ['autocannon', 'benchmarkjs'];
+const ALLOWED_BENCHMARKER = ['autocannon', 'tinybench'];
 
 function asNumber (stat) {
   const result = Object.create(null)
