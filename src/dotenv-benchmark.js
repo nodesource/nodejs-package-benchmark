@@ -14,5 +14,5 @@ module.exports = {
       },
     },
   ],
-  benchmarker: 'benchmarkjs',
+  benchmarker: 'tinybench',
 };
