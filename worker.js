@@ -7,16 +7,30 @@ const { Bench } = require('tinybench');
 const { setTimeout: delay } = require('node:timers/promises');
 
 const runner = {
-  autocannon: (opts) => {
-    return autocannon({
-      url: `http://localhost:${opts.http.serverPort}`,
+  autocannon: async (opts, aggregated) => {
+    if (!aggregated.sortKey) {
+      aggregated.sortKey = 'requests'
+    }
+
+    const url = `http://localhost:${opts.http.serverPort}`
+    const results = await autocannon({
+      url,
       connections: 100,
       pipelining: 1,
       duration: 10 * opts.http.routes.length,
       requests: opts.http.routes,
     })
+    if (!aggregated[url]) {
+      aggregated[url] = [results]
+    } else {
+      aggregated[url].push(results)
+    }
   },
-  tinybench: async (opts) => {
+  tinybench: async (opts, aggregated) => {
+    if (!aggregated.sortKey) {
+      aggregated.sortKey = 'opsSec'
+    }
+
     const suite = new Bench({ time: 100 });
 
     for (const operation of opts.operations) {
@@ -24,19 +38,25 @@ const runner = {
     }
     await suite.warmup();
     await suite.run();
-    const results = [];
     const tasks = suite.tasks;
     for (const task of tasks) {
       const result = task.result
-      results.push({
-        name: task.name,
-        opsSec: result.hz,
-        samples: result.samples.length,
-        sd: result.sd,
-        variance: result.variance,
-      })
+      if (!aggregated[task.name]) {
+        aggregated[task.name] = [{
+          opsSec: result.hz,
+          samples: result.samples.length,
+          sd: result.sd,
+          variance: result.variance,
+        }]
+      } else {
+        aggregated[task.name].push({
+          opsSec: result.hz,
+          samples: result.samples.length,
+          sd: result.sd,
+          variance: result.variance,
+        })
+      }
     }
-    return results;
   },
 }
 
@@ -83,6 +103,22 @@ function spawnServer(settings) {
   return server;
 }
 
+function findMedian(aggregated) {
+  const results = []
+  // Select median
+  const sortKey = aggregated.sortKey
+  for (const k of Object.keys(aggregated)) {
+    if (k === sortKey) continue
+    aggregated[k].sort((a, b) => a[sortKey] > b[sortKey])
+    const middleIndex = Math.floor(aggregated[k].length / 2);
+    results.push({
+      name: k,
+      ...aggregated[k][middleIndex]
+    })
+  }
+  return results
+}
+
 async function runBenchmark(settings) {
   assert.ok(ALLOWED_BENCHMARKER.includes(settings.benchmarker), 'Invalid settings.benchmarker');
 
@@ -93,10 +129,14 @@ async function runBenchmark(settings) {
     // TODO: replace this workaround to use IPC to know when server is up
     await delay(1000);
   }
-
   const benchRunner = runner[settings.benchmarker];
   const benchParser = parser[settings.benchmarker];
-  const results = await benchRunner(settings);
+
+  const aggregated = {};
+  for (let i = 0; i < 10; ++i) {
+    await benchRunner(settings, aggregated)
+  }
+  const results = findMedian(aggregated)
   if (server) {
     server.kill('SIGINT');
   }
