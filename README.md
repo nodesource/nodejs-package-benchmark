@@ -5,7 +5,7 @@ packages operations.
 
 ## Supported packages
 
-- [x] fastify
+- [x] ~fastify~ - Temporary disabled.
 - [x] lodash
 - [x] prettier
 - [x] babel
@@ -38,8 +38,8 @@ To compare subsequent runs, simply omit the "baseline" option:
 ```console
 $ bench-it ./node
 ```
-
-> **Note:** It's recommended to have `colordiff` installed for a clearer comparison of differences.
+> [!TIP]
+> It's recommended to have `colordiff` installed for a clearer comparison of differences.
 
 ## Single run
 
