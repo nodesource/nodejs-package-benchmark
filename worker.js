@@ -108,7 +108,7 @@ function findMedian(aggregated) {
   // Select median
   const sortKey = aggregated.sortKey
   for (const k of Object.keys(aggregated)) {
-    if (k === sortKey) continue
+    if (aggregated[k] === sortKey) continue
     aggregated[k].sort((a, b) => a[sortKey] > b[sortKey])
     const middleIndex = Math.floor(aggregated[k].length / 2);
     results.push({
