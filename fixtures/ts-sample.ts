@@ -1,16 +1,16 @@
 // Loads a lot of libraries and demonstrates various TypeScript features
-import 'autocannon'
-import 'dotenv'
-import 'fastify'
-import 'lodash'
-import 'moment'
-import 'pino'
-import 'piscina'
-import 'prettier'
-import 'tinybench'
-import 'typescript'
-import 'underscore'
-import 'winston'
+import 'autocannon';
+import 'dotenv';
+import 'fastify';
+import 'lodash';
+import 'moment';
+import 'pino';
+import 'piscina';
+import 'prettier';
+import 'tinybench';
+import 'typescript';
+import 'underscore';
+import 'winston';
 
 // Decorators
 function Logger(target: any, propertyKey: string) {
