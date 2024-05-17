@@ -67,10 +67,10 @@ module.exports = {
 						// Avoid writing to disk
 						noEmit: true,
 
-            // Avoids loading external files
+						// Loads external files
 						isolatedModules: true,
-						skipDefaultLibCheck: true,
-						skipLibCheck: true,
+						skipDefaultLibCheck: false,
+						skipLibCheck: false,
 					},
 				});
 
