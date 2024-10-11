@@ -13,11 +13,10 @@ if (process.argv.length < 3) {
 const BINARY = process.argv[2];
 
 if (process.argv[3] === "baseline") {
-  const baseline = execSync('git rev-parse HEAD').toString().trim();
   const result = execSync(`${BINARY} ${NODEJS_PACKAGE_BENCHMARK_PATH}/index.js`, {
     env: { TTY: true },
   }).toString();
-  fs.writeFileSync('baseline.out', `${baseline}\n${result}`);
+  fs.writeFileSync('baseline.out', `${result}`);
   console.log("Baseline generated.");
   process.exit(0);
 }
