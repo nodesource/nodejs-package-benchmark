@@ -1,3 +1,4 @@
+const assert = require('node:assert');
 const moment = require('moment');
 
 module.exports = {
@@ -7,27 +8,27 @@ module.exports = {
     {
       name: 'format (full)',
       fn: () => {
-        return moment().format('MMMM Do YYYY, h:mm:ss a');
+        assert.ok(moment().format('MMMM Do YYYY, h:mm:ss a'));
       },
     },
     {
       name: 'format',
       fn: () => {
-        return moment().format();
+        assert.ok(moment().format());
       },
     },
     {
       name: 'fromNow (YYYYMMDD)',
       fn: () => {
-        return moment('20111031', 'YYYYMMDD').fromNow();
+        assert.ok(moment('20111031', 'YYYYMMDD').fromNow());
       },
     },
     {
       name: 'subtract (10)',
       fn: () => {
-        return moment().subtract(10, 'days').calendar();
+        assert.ok(moment().subtract(10, 'days').calendar());
       },
     },
   ],
-  benchmarker: 'tinybench',
+  benchmarker: 'bench-node',
 };

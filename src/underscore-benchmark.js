@@ -1,4 +1,5 @@
 const underscore = require('underscore');
+const assert = require('node:assert');
 
 module.exports = {
   name: 'underscore',
@@ -7,19 +8,19 @@ module.exports = {
     {
       name: '.chunk',
       fn: () => {
-        underscore.chunk(['a', 'b', 'c', 'd'], 2);
+        assert.ok(underscore.chunk(['a', 'b', 'c', 'd'], 2));
       },
     },
     {
       name: '.groupBy',
       fn: () => {
-        underscore.groupBy([6.1, 4.2, 6.3], Math.floor);
+        assert.ok(underscore.groupBy([6.1, 4.2, 6.3], Math.floor));
       },
     },
     {
       name: '.includes',
       fn: () => {
-        underscore.includes({ 'a': 1, 'b': 2 }, 1);
+        assert.ok(underscore.includes({ 'a': 1, 'b': 2 }, 1));
       },
     },
     {
@@ -31,9 +32,9 @@ module.exports = {
           { 'user': 'fred',   'age': 40 },
           { 'user': 'barney', 'age': 36 }
         ];
-        underscore.sortBy(users, ['user', 'age'], ['asc', 'desc']);
+        assert.ok(underscore.sortBy(users, ['user', 'age'], ['asc', 'desc']));
       }
     }
   ],
-  benchmarker: 'tinybench',
+  benchmarker: 'bench-node',
 };

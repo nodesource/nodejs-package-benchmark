@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const assert = require('node:assert');
 const prettier = require('prettier');
 
 const payloads = [
@@ -15,7 +16,8 @@ module.exports = {
       fn: () => {
         let v = undefined;
         for (const p of payloads) {
-          v= prettier.format(p, { parser: 'babel' });
+          v = prettier.format(p, { parser: 'babel' });
+          assert.ok(v);
         }
         return v;
       },
@@ -29,6 +31,7 @@ module.exports = {
             p,
             { singleQuote: true, useTabs: true, parser: 'babel' },
           );
+          assert.ok(v);
         }
         return v;
       },
@@ -42,6 +45,7 @@ module.exports = {
             p,
             { semi: false, parser: 'babel' }
           );
+          assert.ok(v);
         }
         return v;
       },

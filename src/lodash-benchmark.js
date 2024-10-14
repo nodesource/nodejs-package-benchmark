@@ -1,3 +1,4 @@
+const assert = require('node:assert');
 const lodash = require('lodash');
 
 module.exports = {
@@ -7,19 +8,19 @@ module.exports = {
     {
       name: '.chunk',
       fn: () => {
-        lodash.chunk(['a', 'b', 'c', 'd'], 2);
+        assert.ok(lodash.chunk(['a', 'b', 'c', 'd'], 2));
       },
     },
     {
       name: '.groupBy',
       fn: () => {
-        lodash.groupBy([6.1, 4.2, 6.3], Math.floor);
+        assert.ok(lodash.groupBy([6.1, 4.2, 6.3], Math.floor));
       },
     },
     {
       name: '.includes',
       fn: () => {
-        lodash.includes({ 'a': 1, 'b': 2 }, 1);
+        assert.ok(lodash.includes({ 'a': 1, 'b': 2 }, 1));
       },
     },
     {
@@ -31,9 +32,9 @@ module.exports = {
           { 'user': 'fred',   'age': 40 },
           { 'user': 'barney', 'age': 36 }
         ];
-        lodash.orderBy(users, ['user', 'age'], ['asc', 'desc']);
+        assert.ok(lodash.orderBy(users, ['user', 'age'], ['asc', 'desc']));
       }
     }
   ],
-  benchmarker: 'tinybench',
+  benchmarker: 'bench-node',
 };

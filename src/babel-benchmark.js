@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const assert = require('node:assert');
 const Babel = require('@babel/standalone');
 
 const payloads = [
@@ -16,6 +17,7 @@ module.exports = {
         let v = undefined;
         for (const p of payloads) {
           v = Babel.transform(p, { code: true, ast: true }).code;
+          assert.ok(v)
         }
         return v;
       },
@@ -25,7 +27,8 @@ module.exports = {
       fn: () => {
         let v = undefined;
         for (const p of payloads) {
-          v = Babel.transform(p, { code: false }).code;
+          v = Babel.transform(p, { code: false });
+          assert.ok(v);
         }
         return v;
       },

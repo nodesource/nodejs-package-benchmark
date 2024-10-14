@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --allow-natives-syntax
 
 const fs = require('node:fs/promises');
 const path = require('node:path');

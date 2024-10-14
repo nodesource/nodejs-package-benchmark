@@ -3,6 +3,7 @@ const assert = require('node:assert');
 
 const autocannon = require('autocannon');
 const { Bench } = require('tinybench');
+const { Suite } = require('bench-node');
 
 const { setTimeout: delay } = require('node:timers/promises');
 
@@ -24,6 +25,36 @@ const runner = {
       aggregated[url] = [results]
     } else {
       aggregated[url].push(results)
+    }
+  },
+  'bench-node': async (opts, aggregated) => {
+    if (!aggregated.sortKey) {
+      aggregated.sortKey = 'opsSec'
+    }
+
+    const suite = new Suite({ reporter: false });
+
+    for (const operation of opts.operations) {
+      suite.add(operation.name, operation.fn);
+    }
+
+    const results = await suite.run();
+    for (const result of results) {
+      if (!aggregated[result.name]) {
+        aggregated[result.name] = [{
+          opsSec: result.opsSec,
+          samples: result.iterations,
+          sd: '',
+          variance: '',
+        }]
+      } else {
+        aggregated[result.name].push({
+          opsSec: result.opsSec,
+          samples: result.iterations,
+          sd: '',
+          variance: '',
+        })
+      }
     }
   },
   tinybench: async (opts, aggregated) => {
@@ -78,10 +109,17 @@ const parser = {
       method: 'tinybench',
       operations: result,
     }
+  },
+  'bench-node': (settings, result) => {
+    return {
+      name: settings.name,
+      method: 'bench-node',
+      operations: result,
+    }
   }
 }
 
-const ALLOWED_BENCHMARKER = ['autocannon', 'tinybench'];
+const ALLOWED_BENCHMARKER = ['autocannon', 'tinybench', 'bench-node'];
 
 function asNumber (stat) {
   const result = Object.create(null)
