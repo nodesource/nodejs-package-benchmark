@@ -14,5 +14,5 @@ module.exports = {
       },
     },
   ],
-  benchmarker: 'tinybench',
+  benchmarker: 'bench-node',
 };

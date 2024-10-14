@@ -13,7 +13,7 @@ if (process.argv.length < 3) {
 const BINARY = process.argv[2];
 
 if (process.argv[3] === "baseline") {
-  const result = execSync(`${BINARY} ${NODEJS_PACKAGE_BENCHMARK_PATH}/index.js`, {
+  const result = execSync(`${BINARY} --allow-natives-syntax ${NODEJS_PACKAGE_BENCHMARK_PATH}/index.js`, {
     env: { TTY: true },
   }).toString();
   fs.writeFileSync('baseline.out', `${result}`);
@@ -34,7 +34,7 @@ try {
   diffCmd = "diff";
 }
 
-const currentResult = execSync(`${BINARY} ${NODEJS_PACKAGE_BENCHMARK_PATH}/index.js`, {
+const currentResult = execSync(`${BINARY} --allow-natives-syntax ${NODEJS_PACKAGE_BENCHMARK_PATH}/index.js`, {
   env: { TTY: true },
 }).toString();
 fs.writeFileSync('current.out', currentResult);

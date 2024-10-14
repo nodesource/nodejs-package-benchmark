@@ -47,7 +47,7 @@ $ bench-it ./node
 To a pretty terminal output, run `index.js`
 
 ```console
-$ node index.js
+$ node --allow-natives-syntax index.js
 cpu: 13th Gen Intel(R) Core(TM) i5-13600K (20 cores)
 node: v20.13.1 (/home/hzk/.nvm/versions/node/v20.13.1/bin/node)
 os: Linux 5.15.133.1-microsoft-standard-WSL2 x64
